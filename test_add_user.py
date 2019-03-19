@@ -3,60 +3,66 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import unittest
 
+from myuser import MyUser
+
+
 class TestAddUser(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(30)
-    
+        self.wd = webdriver.Firefox()
+        self.wd.implicitly_wait(30)
+
     def test_add_user(self):
-        driver = self.driver
-        self.open_home_page(driver)
-        self.login(driver)
-        self.open_group_page(driver)
-        self.create_user(driver)
-        self.logout(driver)
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd)
+        self.open_group_page(wd)
+        self.create_user(wd, MyUser("Dima", "Miha", "Yakov", "DimYa", "t", "N", "1", "9", "7", "7", "d", "d.ya2@mail.ru",
+                                  "d.ya3@mail.ru", "www.dima.ru", "15", "April", "1983", "1", "January", "1970",
+                                  "Berdsk", "1", "142"))
+        self.logout(wd)
 
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
 
-    def create_user(self, driver):
-        driver.find_element_by_name("firstname").send_keys("Dima")
-        driver.find_element_by_name("middlename").send_keys("Miha")
-        driver.find_element_by_name("lastname").send_keys("Yakov")
-        driver.find_element_by_name("nickname").send_keys("DimYa")
-        driver.find_element_by_name("title").send_keys("t")
-        driver.find_element_by_name("company").send_keys("N")
-        driver.find_element_by_name("home").send_keys("1")
-        driver.find_element_by_name("mobile").send_keys("9")
-        driver.find_element_by_name("work").send_keys("7")
-        driver.find_element_by_name("fax").send_keys("7")
-        driver.find_element_by_name("email").send_keys("d")
-        driver.find_element_by_name("email2").send_keys("d.ya2@mail.ru")
-        driver.find_element_by_name("email3").send_keys("d.ya3@mail.ru")
-        driver.find_element_by_name("homepage").send_keys("www.dima.ru")
-        driver.find_element_by_name("bday").click()
-        Select(driver.find_element_by_name("bday")).select_by_visible_text("15")
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Birthday:'])[1]/following::option[17]").click()
-        driver.find_element_by_name("bmonth").click()
-        Select(driver.find_element_by_name("bmonth")).select_by_visible_text("April")
-        driver.find_element_by_xpath(
+    def create_user(self, wd, my_user):
+        wd.find_element_by_name("firstname").send_keys(my_user.first_name)
+        wd.find_element_by_name("middlename").send_keys(my_user.middle_name)
+        wd.find_element_by_name("lastname").send_keys(my_user.last_name)
+        wd.find_element_by_name("nickname").send_keys(my_user.nick_name)
+        wd.find_element_by_name("title").send_keys(my_user.title)
+        wd.find_element_by_name("company").send_keys(my_user.company)
+        wd.find_element_by_name("home").send_keys(my_user.home)
+        wd.find_element_by_name("mobile").send_keys(my_user.mobile)
+        wd.find_element_by_name("work").send_keys(my_user.work)
+        wd.find_element_by_name("fax").send_keys(my_user.fax)
+        wd.find_element_by_name("email").send_keys(my_user.email)
+        wd.find_element_by_name("email2").send_keys(my_user.email2)
+        wd.find_element_by_name("email3").send_keys(my_user.email3)
+        wd.find_element_by_name("homepage").send_keys(my_user.homepage)
+        wd.find_element_by_name("bday").click()
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(my_user.b_day)
+        wd.find_element_by_xpath(
+            "(.//*[normalize-space(text()) and normalize-space(.)='Birthday:'])[1]/following::option[17]").click()
+        wd.find_element_by_name("bmonth").click()
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(my_user.b_month)
+        wd.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Birthday:'])[1]/following::option[38]").click()
-        driver.find_element_by_name("byear").send_keys("1983")
-        driver.find_element_by_name("aday").click()
-        Select(driver.find_element_by_name("aday")).select_by_visible_text("1")
-        driver.find_element_by_xpath(
+        wd.find_element_by_name("byear").send_keys(my_user.b_year)
+        wd.find_element_by_name("aday").click()
+        Select(wd.find_element_by_name("aday")).select_by_visible_text(my_user.a_day)
+        wd.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Anniversary:'])[1]/following::option[3]").click()
-        driver.find_element_by_name("amonth").click()
-        Select(driver.find_element_by_name("amonth")).select_by_visible_text("January")
-        driver.find_element_by_xpath(
+        wd.find_element_by_name("amonth").click()
+        Select(wd.find_element_by_name("amonth")).select_by_visible_text(my_user.a_month)
+        wd.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Anniversary:'])[1]/following::option[35]").click()
-        driver.find_element_by_name("ayear").click()
-        driver.find_element_by_name("ayear").clear()
-        driver.find_element_by_name("ayear").send_keys("1970")
-        driver.find_element_by_name("address2").send_keys("Berdsk")
-        driver.find_element_by_name("phone2").send_keys("1")
-        driver.find_element_by_name("notes").send_keys("142")
-        driver.find_element_by_xpath(
+        wd.find_element_by_name("ayear").click()
+        wd.find_element_by_name("ayear").clear()
+        wd.find_element_by_name("ayear").send_keys(my_user.a_year)
+        wd.find_element_by_name("address2").send_keys(my_user.address2)
+        wd.find_element_by_name("phone2").send_keys(my_user.phone2)
+        wd.find_element_by_name("notes").send_keys(my_user.notes)
+        wd.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[1]").click()
 
     def open_group_page(self, driver):
@@ -71,7 +77,8 @@ class TestAddUser(unittest.TestCase):
         driver.get("http://localhost/addressbook/edit.php")
 
     def tearDown(self):
-        self.driver.quit()
+        self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()

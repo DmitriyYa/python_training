@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 import unittest
-from group import  Group
+from group import Group
+
 
 class TestAddGroup(unittest.TestCase):
 
@@ -27,7 +28,6 @@ class TestAddGroup(unittest.TestCase):
         self.open_group_page(wd)
         self.logout(wd)
 
-
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
@@ -51,6 +51,7 @@ class TestAddGroup(unittest.TestCase):
 
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
