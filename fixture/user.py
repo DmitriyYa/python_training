@@ -1,9 +1,10 @@
 from selenium.webdriver.support.ui import Select
 
+
 class UserHelper:
 
     def __init__(self, app):
-        self.app=app
+        self.app = app
 
     def create(self, my_user):
         wd = self.app.wd
