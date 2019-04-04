@@ -14,6 +14,7 @@ class GroupHelper:
     def change_field_value(self, feild_name, text):
         wd = self.app.wd
         if text is not None:
+            wd.find_element_by_name(feild_name).clear()
             wd.find_element_by_name(feild_name).send_keys(text)
 
     def fill_form_group(self, group):
