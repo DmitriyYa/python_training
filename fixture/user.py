@@ -15,6 +15,7 @@ class UserHelper:
 
     def delete_first_user(self):
         wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
@@ -34,6 +35,7 @@ class UserHelper:
 
     def edit_first_user(self, my_user):
         wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
         self.fill_form_user(my_user)
         wd.find_element_by_name("update").click()
