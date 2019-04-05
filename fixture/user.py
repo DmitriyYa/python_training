@@ -11,14 +11,18 @@ class UserHelper:
         wd.find_element_by_link_text("add new").click()
         self.fill_form_user(my_user)
         wd.find_element_by_name("submit").click()
-        wd.find_element_by_link_text("home").click()
+        self.open_home_page()
 
     def delete_first_user(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.open_home_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        self.open_home_page()
+
+    def open_home_page(self):
+        wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
     def change_field_value(self, feild_name, text):
@@ -35,11 +39,11 @@ class UserHelper:
 
     def edit_first_user(self, my_user):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.open_home_page()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
         self.fill_form_user(my_user)
         wd.find_element_by_name("update").click()
-        wd.find_element_by_link_text("home").click()
+        self.open_home_page()
 
     def fill_form_user(self, my_user):
         wd = self.app.wd
@@ -66,3 +70,8 @@ class UserHelper:
         self.change_field_value("address2", my_user.address2)
         self.change_field_value("phone2", my_user.phone2)
         self.change_field_value("notes", my_user.notes)
+
+    def count(self):
+        wd = self.app.wd
+        self.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
