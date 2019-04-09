@@ -1,10 +1,16 @@
+from time import sleep
 from selenium.webdriver.support.ui import Select
+from model.myuser import MyUser
 
 
 class UserHelper:
 
     def __init__(self, app):
         self.app = app
+
+    def return_to_user_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home page").click()
 
     def create(self, my_user):
         wd = self.app.wd
@@ -18,17 +24,14 @@ class UserHelper:
         self.open_user_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
-        wd.switch_to_alert().accept()
+        wd.switch_to.alert.accept()
+        # Todo
+        sleep(2)
 
     def open_user_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("add")) > 0):
             wd.find_element_by_link_text("home").click()
-
-    def return_to_user_page(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
-
 
     def change_field_value(self, feild_name, text):
         wd = self.app.wd
@@ -80,3 +83,16 @@ class UserHelper:
         wd = self.app.wd
         self.open_user_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_user_list(self):
+        wd = self.app.wd
+        self.open_user_page()
+        users = []
+        if self.count() > 0:
+            for entry in wd.find_element_by_id("maintable").find_elements_by_name("entry"):
+                td = entry.find_elements_by_tag_name("td")
+                user_id = td[0].find_element_by_name("selected[]").get_attribute("value")
+                first_name = td[1].text
+                last_name = td[2].text
+                users.append(MyUser(first_name=first_name, last_name=last_name, id=user_id))
+        return users
