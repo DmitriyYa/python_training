@@ -27,3 +27,9 @@ class MyUser():
         self.phone2 = phone2
         self.notes = notes
         self.id = id
+
+    def __repr__(self):
+        return "%s: %s" % (self.id, self.first_name)
+
+    def __eq__(self, other):
+        return self.id == other.id and self.first_name == other.first_name
