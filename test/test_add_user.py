@@ -8,8 +8,9 @@ def test_add_user(app):
                   "Berdsk", "1", "142")
     old_users = app.user.get_user_list()
     app.user.create(user)
+
+    assert len(old_users) + 1 == app.user.count()
     new_users = app.user.get_user_list()
-    assert len(old_users) + 1 == len(new_users)
 
     old_users.append(user)
     assert sorted(old_users, key=MyUser.id_or_max) == sorted(new_users, key=MyUser.id_or_max)

@@ -4,6 +4,7 @@ from model.myuser import MyUser
 
 
 class UserHelper:
+    user_cache = None
 
     def __init__(self, app):
         self.app = app
@@ -18,6 +19,7 @@ class UserHelper:
         self.fill_form_user(my_user)
         wd.find_element_by_name("submit").click()
         self.return_to_user_page()
+        self.user_cache = None
 
     def delete_first_user(self):
         wd = self.app.wd
@@ -27,6 +29,7 @@ class UserHelper:
         wd.switch_to.alert.accept()
         # Todo
         sleep(2)
+        self.user_cache = None
 
     def open_user_page(self):
         wd = self.app.wd
@@ -52,6 +55,7 @@ class UserHelper:
         self.fill_form_user(my_user)
         wd.find_element_by_name("update").click()
         self.return_to_user_page()
+        self.user_cache = None
 
     def fill_form_user(self, my_user):
         wd = self.app.wd
@@ -85,14 +89,15 @@ class UserHelper:
         return len(wd.find_elements_by_name("selected[]"))
 
     def get_user_list(self):
-        wd = self.app.wd
-        self.open_user_page()
-        users = []
-        if self.count() > 0:
-            for entry in wd.find_element_by_id("maintable").find_elements_by_name("entry"):
-                td = entry.find_elements_by_tag_name("td")
-                user_id = td[0].find_element_by_name("selected[]").get_attribute("value")
-                first_name = td[2].text
-                last_name = td[1].text
-                users.append(MyUser(first_name=first_name, last_name=last_name, id=user_id))
-        return users
+        if self.user_cache is None:
+            wd = self.app.wd
+            self.open_user_page()
+            self.user_cache = []
+            if self.count() > 0:
+                for entry in wd.find_element_by_id("maintable").find_elements_by_name("entry"):
+                    td = entry.find_elements_by_tag_name("td")
+                    user_id = td[0].find_element_by_name("selected[]").get_attribute("value")
+                    first_name = td[2].text
+                    last_name = td[1].text
+                    self.user_cache.append(MyUser(first_name=first_name, last_name=last_name, id=user_id))
+        return self.user_cache
