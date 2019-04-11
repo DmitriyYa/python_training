@@ -92,7 +92,7 @@ class UserHelper:
             for entry in wd.find_element_by_id("maintable").find_elements_by_name("entry"):
                 td = entry.find_elements_by_tag_name("td")
                 user_id = td[0].find_element_by_name("selected[]").get_attribute("value")
-                first_name = td[1].text
-                last_name = td[2].text
+                first_name = td[2].text
+                last_name = td[1].text
                 users.append(MyUser(first_name=first_name, last_name=last_name, id=user_id))
         return users
