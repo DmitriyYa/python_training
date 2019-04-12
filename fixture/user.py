@@ -22,9 +22,12 @@ class UserHelper:
         self.user_cache = None
 
     def delete_first_user(self):
+        self.delete_user_by_index(0)
+
+    def delete_user_by_index(self, index):
         wd = self.app.wd
         self.open_user_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to.alert.accept()
         # Todo
@@ -48,10 +51,21 @@ class UserHelper:
             wd.find_element_by_name(feild_name).click()
             Select(wd.find_element_by_name(feild_name)).select_by_visible_text(text)
 
-    def edit_first_user(self, my_user):
+    def select_user_by_index(self, index):
+        wd = self.app.wd
+        list = []
+        for el in wd.find_elements_by_tag_name("img"):
+            if "Edit" == el.get_attribute("title"):
+                list.append(el)
+        list[index].click()
+
+    def edit_first_user(self):
+        self.delete_user_by_index(0)
+
+    def edit_user_by_index(self, my_user, index):
         wd = self.app.wd
         self.open_user_page()
-        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
+        self.select_user_by_index(index)
         self.fill_form_user(my_user)
         wd.find_element_by_name("update").click()
         self.return_to_user_page()
