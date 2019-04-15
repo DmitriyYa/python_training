@@ -53,11 +53,12 @@ class UserHelper:
 
     def select_user_by_index(self, index):
         wd = self.app.wd
-        list = []
-        for el in wd.find_elements_by_tag_name("img"):
-            if "Edit" == el.get_attribute("title"):
-                list.append(el)
-        list[index].click()
+        # list = []
+        # for el in wd.find_elements_by_tag_name("img"):
+        #     if "Edit" == el.get_attribute("title"):
+        #         list.append(el)
+        # list[index].click()
+        wd.find_elements_by_xpath("// img [@title = 'Edit' and @alt = 'Edit']")[index].click()
 
     def edit_first_user(self):
         self.delete_user_by_index(0)
