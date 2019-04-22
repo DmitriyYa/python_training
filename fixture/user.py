@@ -120,7 +120,7 @@ class UserHelper:
                     self.user_cache.append(MyUser(first_name=first_name, last_name=last_name, id=user_id,
                                                   all_phones_from_home_page=all_phones, address=addreses,
                                                   all_emails_from_home_page=all_emails))
-            return self.user_cache
+        return self.user_cache
 
     def get_user_info_by_index_from_edit_page(self, index):
         wd = self.app.wd
