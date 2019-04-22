@@ -6,7 +6,7 @@ def test_edit_first_user_all(app):
     if app.user.count() == 0:
         app.user.create(MyUser(first_name="user"))
 
-    old_users = app.user.get_user_list()
+    old_users = app.user.get_user_list_from_home_page()
     index = randrange(len(old_users))
 
     user = MyUser("Dima", "Miha", "Yakov", "DimYa", "t", "N", "1", "9", "7", "7", "d", "d.ya2@mail.ru",
@@ -15,7 +15,7 @@ def test_edit_first_user_all(app):
     user.id = old_users[index].id
     app.user.edit_user_by_index(user, index)
 
-    new_users = app.user.get_user_list()
+    new_users = app.user.get_user_list_from_home_page()
     assert len(old_users) == len(new_users)
 
     old_users[index] = user
