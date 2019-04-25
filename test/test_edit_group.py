@@ -5,14 +5,14 @@ def test_edit_some_group_all(app):
     if app.group.count() == 0:
         app.group.create(Group(name="test"))
 
-    old_groups = app.group.get_group_list()
+    old_groups = app.group.get_group_list_in_group_page()
     index = randrange(len(old_groups))
 
     group = Group(name="NewName", header="NewHeder", footer="NewFooter")
     group.id = old_groups[index].id
     app.group.edit_group_by_index(group, index)
 
-    new_groups = app.group.get_group_list()
+    new_groups = app.group.get_group_list_in_group_page()
     assert len(old_groups) == len(new_groups)
 
     old_groups[index] = group

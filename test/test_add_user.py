@@ -10,13 +10,11 @@ def random_string(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [
-    MyUser(first_name=first_name, last_name=last_name, home_phone=home_phone, address=address, email=email)
-    for first_name in ["", random_string("first_name", 10)]
-    for last_name in ["", random_string("last_name", 10)]
-    for home_phone in ["", random_string("home_phone", 10)]
-    for address in ["", random_string("address", 20)]
-    for email in ["", random_string("email", 20)]
+testdata = [MyUser(first_name="", last_name="", home_phone="", address="", email="")] + [
+    MyUser(first_name=random_string("first_name", 10), last_name=random_string("last_name", 10),
+           home_phone=random_string("home_phone", 10), address=random_string("address", 20),
+           email=random_string("email", 20))
+    for i in range(5)
 ]
 
 

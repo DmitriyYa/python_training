@@ -59,6 +59,7 @@ class UserHelper:
 
     def select_user_by_index_to_view(self, index):
         wd = self.app.wd
+        self.open_user_home_page()
         wd.find_elements_by_xpath("// img [@title = 'Details' and @alt = 'Details']")[index].click()
 
     def edit_first_user(self):
@@ -150,9 +151,9 @@ class UserHelper:
         wd = self.app.wd
         self.select_user_by_index_to_view(index)
         text = wd.find_element_by_id("content").text
-        home_phone = re.search("H: (.*)", text).group(1)
-        work_phone = re.search("W: (.*)", text).group(1)
-        mobile_phone = re.search("M: (.*)", text).group(1)
-        phone2_phone = re.search("P: (.*)", text).group(1)
+        home_phone = re.search("H: (.*)", text)
+        work_phone = re.search("W: (.*)", text)
+        mobile_phone = re.search("M: (.*)", text)
+        phone2_phone = re.search("P: (.*)", text)
 
         return MyUser(home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone, phone2=phone2_phone)
