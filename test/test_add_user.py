@@ -6,7 +6,7 @@ import string
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + " " * 10
+    symbols = string.ascii_letters + string.digits + " "
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
@@ -22,9 +22,8 @@ testdata = [MyUser(first_name="", last_name="", home_phone="", address="", email
 def test_add_user(app, user):
     old_users = app.user.get_user_list_from_home_page()
     app.user.create(user)
-
     assert len(old_users) + 1 == app.user.count()
-    new_users = app.user.get_user_list_from_home_page()
 
+    new_users = app.user.get_user_list_from_home_page()
     old_users.append(user)
     assert sorted(old_users, key=MyUser.id_or_max) == sorted(new_users, key=MyUser.id_or_max)
