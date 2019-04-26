@@ -3,6 +3,7 @@ import pytest
 import json
 import os.path
 import importlib
+import jsonpickle
 
 fixture = None
 config_file = None
@@ -39,11 +40,14 @@ def stop(request):
 
 
 # parametri komandnoi ctroki
+# hook function https://docs.pytest.org/en/latest/parametrize.html#basic-pytest-generate-tests-example
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--target", action="store", default="target.json")
 
+
 # sviazivaev dinamicheski testi i dannie
+# hook function https://docs.pytest.org/en/latest/parametrize.html#basic-pytest-generate-tests-example
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
         if fixture.startswith("data_"):
@@ -53,9 +57,11 @@ def pytest_generate_tests(metafunc):
             testdata = load_from_json(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
 
+# zagruska dannih iz data/modile.py
 def load_from_module(module):
     return importlib.import_module("data.%s" % module).testdata
 
-
+# zagruska dannih iz data/modile.json
 def load_from_json(file):
-    pass
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
+        return jsonpickle.decode(f.read())
