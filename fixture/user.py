@@ -35,6 +35,16 @@ class UserHelper:
         sleep(2)
         self.user_cache = None
 
+    def delete_user_by_id(self, id):
+        wd = self.app.wd
+        self.open_user_home_page()
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
+        wd.switch_to.alert.accept()
+        # Todo nu da, poka tak :)
+        sleep(2)
+        self.user_cache = None
+
     def open_user_home_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("add")) > 0):
@@ -57,6 +67,11 @@ class UserHelper:
         self.open_user_home_page()
         wd.find_elements_by_xpath("// img [@title = 'Edit' and @alt = 'Edit']")[index].click()
 
+    def select_user_by_id_to_edit(self, id):
+        wd = self.app.wd
+        self.open_user_home_page()
+        wd.find_element_by_css_selector("a[href='edit.php?id=%s']" % id).click()
+
     def select_user_by_index_to_view(self, index):
         wd = self.app.wd
         self.open_user_home_page()
@@ -68,6 +83,14 @@ class UserHelper:
     def edit_user_by_index(self, my_user, index):
         wd = self.app.wd
         self.select_user_by_index_to_edit(index)
+        self.fill_form_user(my_user)
+        wd.find_element_by_name("update").click()
+        self.return_to_user_page()
+        self.user_cache = None
+
+    def edit_user_by_id(self, my_user, id):
+        wd = self.app.wd
+        self.select_user_by_id_to_edit(id)
         self.fill_form_user(my_user)
         wd.find_element_by_name("update").click()
         self.return_to_user_page()
