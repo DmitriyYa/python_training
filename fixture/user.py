@@ -103,6 +103,7 @@ class UserHelper:
         self.change_field_value("lastname", my_user.last_name)
         self.change_field_value("nickname", my_user.nick_name)
         self.change_field_value("title", my_user.title)
+        self.change_field_value("address", my_user.address)
         self.change_field_value("company", my_user.company)
         self.change_field_value("home", my_user.home_phone)
         self.change_field_value("mobile", my_user.mobile_phone)

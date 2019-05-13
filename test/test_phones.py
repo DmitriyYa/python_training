@@ -1,37 +1,25 @@
 import re
-from random import randrange
+from model.myuser import MyUser
 
 
-def test_user_contacts_on_homepage(app):
-    user_list_from_home_page = app.user.get_user_list_from_home_page()
-    index = randrange(len(user_list_from_home_page))
+def test_user_contacts_on_homepage(app, db):
+    user_list_from_home_page = sorted(app.user.get_user_list_from_home_page(), key=MyUser.id_or_max)
 
-    some_user_from_home_page = user_list_from_home_page[index]
+    user_list_from_db = sorted(db.get_user_list(), key=MyUser.id_or_max)
 
-    some_user_from_edit_page = app.user.get_user_info_by_index_from_edit_page(index)
-
-    assert some_user_from_home_page.first_name == clear_names(some_user_from_edit_page.first_name)
-
-    assert some_user_from_home_page.last_name == clear_names(some_user_from_edit_page.last_name)
-
-    assert some_user_from_home_page.all_phones_from_home_page == merg_phones_like_on_home_page(
-        some_user_from_edit_page)
-
-    assert some_user_from_home_page.all_emails_from_home_page == merg_emails_like_on_home_page(some_user_from_edit_page)
-
-    assert some_user_from_home_page.address == some_user_from_edit_page.address
+    for i in range(len(user_list_from_home_page)):
+        assert user_list_from_home_page[i].first_name == clear_names(user_list_from_db[i].first_name)
+        assert user_list_from_home_page[i].last_name == clear_names(user_list_from_db[i].last_name)
+        assert user_list_from_home_page[i].address == user_list_from_db[i].address
+        assert user_list_from_home_page[i].all_emails_from_home_page == merg_emails_like_on_home_page(
+            user_list_from_db[i])
+        assert user_list_from_home_page[i].all_phones_from_home_page == merg_phones_like_on_home_page(
+            user_list_from_db[i])
 
 
-# def test_phones_on_view_page(app):
-#     user_list_from_home_page = app.user.get_user_list_from_home_page()
-#     index = randrange(len(user_list_from_home_page))
-#
-#     user_from_view_page = app.user.get_user_info_by_index_from_view_page(index)
-#     user_from_edit_page = app.user.get_user_info_by_index_from_edit_page(index)
-#     assert user_from_view_page.home_phone == user_from_edit_page.home_phone
-#     assert user_from_view_page.work_phone == user_from_edit_page.work_phone
-#     assert user_from_view_page.mobile_phone == user_from_edit_page.mobile_phone
-#     assert user_from_view_page.phone2 == user_from_edit_page.phone2
+def clear_address(st):
+    if st == "":
+        return None
 
 
 def clear(st):
@@ -43,7 +31,7 @@ def clear_email(st):
 
 
 def clear_names(st):
-    if st and st[-1]== " ":
+    if st and st[-1] == " ":
         return st[0:-1]
     else:
         return st
