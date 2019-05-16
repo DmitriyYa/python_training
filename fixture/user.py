@@ -181,3 +181,19 @@ class UserHelper:
         phone2_phone = re.search("P: (.*)", text)
 
         return MyUser(home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone, phone2=phone2_phone)
+
+    def add_user_by_id_in_group(self, user, group):
+        wd = self.app.wd
+        self.open_user_home_page()
+
+        wd.find_element_by_css_selector("input[value='%s']" % user.id).click()
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
+        wd.find_element_by_name('add').click()
+
+    def del_user_by_id_from_group(self, user, group):
+        wd = self.app.wd
+        self.open_user_home_page()
+
+        wd.find_element_by_xpath("//select[@name='group']/option[@value='%s']" % group.id).click()
+        wd.find_element_by_css_selector("input[value='%s']" % user.id).click()
+        wd.find_element_by_name('remove').click()
