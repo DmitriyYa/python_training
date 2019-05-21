@@ -66,7 +66,7 @@ def check_ui(request):
 # parametri komandnoi ctroki
 # hook function https://docs.pytest.org/en/latest/parametrize.html#basic-pytest-generate-tests-example
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
     parser.addoption("--check_ui", action="store_true")
 
