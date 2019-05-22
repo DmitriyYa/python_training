@@ -1,7 +1,8 @@
 from model.myuser import MyUser
 import random
+import pytest
 
-
+@pytest.mark.user_mark
 def test_add_user(app, db, json_users, check_ui):
     user = json_users
     old_users = db.get_user_list()
@@ -15,7 +16,7 @@ def test_add_user(app, db, json_users, check_ui):
         assert sorted(new_users, key=MyUser.id_or_max) == sorted(app.user.get_user_list_from_home_page(),
                                                                  key=MyUser.id_or_max)
 
-
+@pytest.mark.user_mark
 def test_add_user_in_group(app, db):
     user_random = random.choice(db.get_user_list())
     group_random = random.choice(db.get_group_list())
@@ -34,7 +35,7 @@ def test_add_user_in_group(app, db):
     old_users_in_group.append(user_random)
     assert sorted(old_users_in_group, key=MyUser.id_or_max) == sorted(new_users_in_group, key=MyUser.id_or_max)
 
-
+@pytest.mark.user_mark
 def test_del_user_in_group(app, db):
     user_random = random.choice(db.get_user_list())
     group_random = random.choice(db.get_group_list())
