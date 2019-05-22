@@ -11,7 +11,7 @@ def test_del_user(app, db, check_ui):
     user = random.choice(old_users)
     app.user.delete_user_by_id(user.id)
 
-    # new_users = db.get_user_list()
+    new_users = db.get_user_list()
     assert len(old_users) - 1 == len(new_users)
 
     old_users.remove(user)
